@@ -71,13 +71,20 @@ def readLangs(lang1, lang2, reverse=False):
 
     return input_lang, output_lang, pairs
 
-def split_train_test(data, train_fraction = 0.7):
+# changed
+def split_train_val_test(data, train_fraction = 0.7, eval_fraction = 0.2):
     random.Random(4).shuffle(data)
     data_size = len(data)
     train_size = int(data_size*train_fraction)
+    eval_size = int(data_size*eval_fraction)
+    print('train_size', train_size , 'eval_size', eval_size, 'test_size', data_size-train_size-eval_size)
     train_data = data[:train_size]
-    test_data = data[train_size:]
-    return train_data, test_data
+    print('train_data>>>>>>',len(train_data))
+    eval_data = data[train_size:train_size+eval_size]
+    print('eval_data>>>>>>',len(eval_data))
+    test_data = data[train_size+eval_size:]
+    print('test_data>>>>>>',len(test_data))
+    return train_data, eval_data, test_data
 
 
 def indexesFromSentence(lang, sentence):
